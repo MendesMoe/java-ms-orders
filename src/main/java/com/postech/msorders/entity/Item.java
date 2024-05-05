@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -19,5 +20,6 @@ public class Item {
 
     private Long idProduct;
 
-    private BigDecimal quantidade;
+    private BigDecimal quantity;
+
 }
