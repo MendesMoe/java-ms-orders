@@ -32,7 +32,7 @@ public class OrderController {
             @ApiResponse(description = "The new order was created", responseCode = "201", content = @Content(schema = @Schema(implementation = Order.class))),
             @ApiResponse(description = "Order Invalid", responseCode = "400", content = @Content(schema = @Schema(type = "string", example = "??????????")))
     })
-    public ResponseEntity<?> createCustomer(@Valid @RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDTO orderDTO) {
         log.info("PostMapping - createOrder for customer [{}]", orderDTO.getIdCustomer());
         try {
             Order orderNew = new Order(orderDTO);
