@@ -12,10 +12,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -52,7 +54,7 @@ class OrderControllerTest {
         }
 
         @Test
-        void deveGerarExcecaoQuandoRegistrarPedidoNomeNulo() throws Exception {
+        void deveGerarExcecaoQuandoRegistrarPedidoCampoNulo() throws Exception {
             // Arrange
             OrderDTO orderDTO = new OrderDTO();
 
@@ -61,6 +63,22 @@ class OrderControllerTest {
 
             // Assert
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        }
+
+        @Test
+        void deveGerarExcecaoQuandoCustsomerNaoEncontrado() throws Exception {
+            // Arrange
+            String idCustomer = "c0390cca-aba3-4c91-ac44-29ec5615f381";
+            List<Item> items = new ArrayList<>();
+            OrderDTO validOrderDTO = new OrderDTO(idCustomer, items);
+
+            when(orderGateway.createOrder(any())).thenThrow(HttpClientErrorException.class);
+
+            // Act
+            ResponseEntity<?> response = orderController.createOrder(validOrderDTO);
+
+            // Assert
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         }
     }
 

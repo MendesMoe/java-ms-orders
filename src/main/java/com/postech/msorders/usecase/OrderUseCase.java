@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class OrderUseCase {
     static RestTemplate restTemplate = new RestTemplate();
 
-    public static void validateInsertOrder(Order orderNew) {
+    public static void validateInsertOrder(Order orderNew)  {
         findCustomer(String.valueOf(orderNew.getIdCustomer()));
 
     }
