@@ -24,9 +24,9 @@ A Collection utilizada no Postman está disponível na URL:
 https://github.com/MendesMoe/java-ms-orders/blob/main/src/main/resources/PosTech_TC4.postman_collection.json
 
 A documentação detalhada da API está acessível na URL:
-http://localhost:8081/swagger-ui/index.html
+http://localhost:8082/swagger-ui/index.html
 
 ## Portas configuradas
 
-App: http://localhost:8081
+App: http://localhost:8082
 MySQL: jdbc:mysql://localhost:3307/orderdb

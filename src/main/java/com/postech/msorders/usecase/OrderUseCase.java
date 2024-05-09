@@ -22,7 +22,7 @@ public class OrderUseCase {
     }
 
     public static boolean findCustomer(String idCustomer) {
-        String url = "http://localhost:8080/customers/" + idCustomer;
+        String url = "http://localhost:8081/customers/" + idCustomer;
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         if(response.getStatusCode().is2xxSuccessful())
