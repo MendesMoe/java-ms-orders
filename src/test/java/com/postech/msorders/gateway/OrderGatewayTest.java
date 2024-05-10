@@ -32,6 +32,7 @@ public class OrderGatewayTest {
     void testCreateOrder_ValidInput_ReturnsOrder() {
         // Arrange
         Order order = new Order();
+        order.setId(UUID.randomUUID());
         // Mock the behavior of orderRepository
         when(orderRepository.save(order)).thenReturn(order);
 
@@ -40,6 +41,7 @@ public class OrderGatewayTest {
 
         // Assert
         assertEquals(order, result);
+        assertEquals(order.getId(), result.getId());
     }
 
     @Test
