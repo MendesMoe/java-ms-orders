@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "tb_Item")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +20,10 @@ public class Item {
 
     private BigDecimal quantity;
 
-    public Item(int i, int i1) {
+    public Item(long i, long j) {
+        this.id = 1L;
+        this.idProduct = i;
+        this.quantity = BigDecimal.valueOf(j);
     }
+
 }

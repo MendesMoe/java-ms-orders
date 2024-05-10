@@ -28,5 +28,5 @@ http://localhost:8081/swagger-ui/index.html
 
 ## Portas configuradas
 
-App: http://localhost:8081
+App: http://localhost:8082
 MySQL: jdbc:mysql://localhost:3307/orderdb

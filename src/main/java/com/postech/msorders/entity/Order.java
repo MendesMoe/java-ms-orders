@@ -15,7 +15,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_Order")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
