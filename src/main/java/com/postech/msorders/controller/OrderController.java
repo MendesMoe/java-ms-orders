@@ -36,6 +36,7 @@ public class OrderController {
         try {
             Order orderNew = new Order(orderDTO);
             OrderUseCase.validateInsertOrder(orderNew);
+            OrderUseCase.validateProductAvailability(orderNew);
             Order orderCreated = orderGateway.createOrder(orderNew);
             return new ResponseEntity<>(orderCreated, HttpStatus.CREATED);
         } catch (HttpClientErrorException enf) {

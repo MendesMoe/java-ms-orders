@@ -24,6 +24,10 @@ services:
     environment:
       MYSQL_HOSTNAME: mysql-orders
       MYSQL_PORT: 3306
+      MSPRODUCTS_HOSTNAME: ms-products
+      MSPRODUCTS_PORT: 8080
+      MSCUSTOMERS_HOSTNAME: ms-customers
+      MSCUSTOMERS_PORT: 8081
     ports:
       - 8082:8082
     networks:
