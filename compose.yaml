@@ -21,6 +21,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mysql-orders
+    hostname: "ms-orders"
     environment:
       MYSQL_HOSTNAME: mysql-orders
       MYSQL_PORT: 3306
@@ -36,3 +37,4 @@ services:
 networks:
   my_network:
     driver: bridge
+    external: true

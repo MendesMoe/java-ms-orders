@@ -21,17 +21,23 @@ import java.util.List;
 public class OrderUseCase {
     static RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${api.msproducts.url}")
     private static String msProductsUrl;
-
-    @Value("${api.mscustomers.url}")
     private static String msCustomersUrl;
 
+    @Value("${api.msproducts.url}")
+    public void setMsProductsUrl(String msProductsUrl) {
+        this.msProductsUrl = msProductsUrl;
+    }
+
+    @Value("${api.mscustomers.url}")
+    public void setMsCustomersUrl(String msCustomersUrl) {
+        this.msCustomersUrl = msCustomersUrl;
+    }
     public static void validateInsertOrder(Order orderNew)  {
         findCustomer(String.valueOf(orderNew.getIdCustomer()));
     }
 
-    private static boolean findCustomer(String idCustomer) {
+    static boolean findCustomer(String idCustomer) {
         String url = msCustomersUrl + idCustomer;
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
@@ -52,6 +58,7 @@ public class OrderUseCase {
             ResponseEntity<String> response = restTemplate.getForEntity(
                     msProductsUrl + idProduct + "/" + quantity, String.class);
         }
+        return false;
     }
 
 }
