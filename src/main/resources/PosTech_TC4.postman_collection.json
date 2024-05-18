@@ -187,7 +187,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"idCustomer\": \"c0390cca-aba3-4c91-ac44-29ec5615f381\",\r\n  \"itens\": [{\"idProduct\": 2, \"quantity\": 1},{\"idProduct\": 1, \"quantity\": 2}]    \r\n}",
+							"raw": "{\r\n  \"idCustomer\": \"7ce4a6b3-4689-4286-8341-7b9de66874cb\",\r\n  \"itens\": [{\"idProduct\": \"b1d1a16f-69bd-4e2a-b6da-0ca417b756f4\", \"quantity\": 50},\r\n            {\"idProduct\": \"cb8f986a-0bd5-485c-8a4e-3f369ce13ecc\", \"quantity\": 5}]    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -254,6 +254,170 @@
 							"path": [
 								"orders",
 								"33e61849-5dc3-4f47-ab21-c2041d6bda09"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-products",
+			"item": [
+				{
+					"name": "1.0 Create Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nome do Produto\",\r\n    \"description\": \"Descrição do Produto\",\r\n    \"price\": 99.99,\r\n    \"quantity_stk\": 10,\r\n    \"created_at\": \"2023-05-12T10:30:00\",\r\n    \"updated_at\": \"2023-05-12T15:45:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.0 Find All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.1 Find Product By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/b1d1a16f-69bd-4e2a-b6da-0ca417b756f4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"b1d1a16f-69bd-4e2a-b6da-0ca417b756f4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.2 Availability of Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/b1d1a16f-69bd-4e2a-b6da-0ca417b756f4/66",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"b1d1a16f-69bd-4e2a-b6da-0ca417b756f4",
+								"66"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.0 Increase the stock Product by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/updateStockIncrease/b1d1a16f-69bd-4e2a-b6da-0ca417b756f4/-5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"updateStockIncrease",
+								"b1d1a16f-69bd-4e2a-b6da-0ca417b756f4",
+								"-5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.1 Update the stock Product by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/updateStockQuantity/b1d1a16f-69bd-4e2a-b6da-0ca417b756f4/150",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"updateStockQuantity",
+								"b1d1a16f-69bd-4e2a-b6da-0ca417b756f4",
+								"150"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.0 Delete Product By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/c0390cca-aba3-4c91-ac44-29ec5615f381",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"c0390cca-aba3-4c91-ac44-29ec5615f381"
 							]
 						}
 					},
