@@ -5,7 +5,9 @@ import com.postech.msorders.entity.Order;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,25 +15,33 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
 @NoArgsConstructor
-@Service
+//@Service
 public class OrderUseCase {
     static RestTemplate restTemplate = new RestTemplate();
 
+    private String msProductsUrl;
+    private String msCustomersUrl;
+
     @Value("${api.msproducts.url}")
-    private static String msProductsUrl;
+    public void setMsProductsUrl(String msProductsUrl) {
+        this.msProductsUrl = msProductsUrl;
+    }
 
     @Value("${api.mscustomers.url}")
-    private static String msCustomersUrl;
+    public void setMsCustomersUrl(String msCustomersUrl) {
+        this.msCustomersUrl = msCustomersUrl;
+    }
 
-    public static void validateInsertOrder(Order orderNew)  {
+    public void validateInsertOrder(Order orderNew)  {
         findCustomer(String.valueOf(orderNew.getIdCustomer()));
     }
 
-    private static boolean findCustomer(String idCustomer) {
+    boolean findCustomer(String idCustomer) {
         String url = msCustomersUrl + idCustomer;
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
@@ -40,18 +50,23 @@ public class OrderUseCase {
         return false;
     }
 
-    public static void validateProductAvailability(Order orderNew) {
+    public void validateProductAvailability(Order orderNew) {
         findProduct(orderNew.getItens());
     }
 
-    private static boolean findProduct(List<Item> itens) {
+    boolean findProduct(List<Item> itens) {
         for(Item item : itens) {
-            Long idProduct = item.getIdProduct();
+            UUID idProduct = item.getIdProduct();
             BigDecimal quantity = item.getQuantity();
 
-            ResponseEntity<String> response = restTemplate.getForEntity(
-                    msProductsUrl + idProduct + "/" + quantity, String.class);
+            String url = msProductsUrl + idProduct + "/" + quantity;
+
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+            if (response.getBody().matches("false"))
+                return false;
         }
+        return true;
     }
 
 }

@@ -35,8 +35,11 @@ public class OrderController {
         log.info("PostMapping - createOrder for customer [{}]", orderDTO.getIdCustomer());
         try {
             Order orderNew = new Order(orderDTO);
-            OrderUseCase.validateInsertOrder(orderNew);
-            OrderUseCase.validateProductAvailability(orderNew);
+
+            OrderUseCase orderUseCase = new OrderUseCase();
+            orderUseCase.validateInsertOrder(orderNew);
+            orderUseCase.validateProductAvailability(orderNew);
+
             Order orderCreated = orderGateway.createOrder(orderNew);
             return new ResponseEntity<>(orderCreated, HttpStatus.CREATED);
         } catch (HttpClientErrorException enf) {

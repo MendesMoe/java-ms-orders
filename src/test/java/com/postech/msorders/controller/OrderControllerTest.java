@@ -17,6 +17,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -75,7 +76,7 @@ class OrderControllerTest {
             // Arrange
             String idCustomer = "c0390cca-aba3-4c91-ac44-29ec5615f381";
             List<Item> items = new ArrayList<>();
-            items.add(0,new Item(1, 1));
+            items.add(0,new Item(UUID.randomUUID(), 1));
             OrderDTO validOrderDTO = new OrderDTO(idCustomer, items);
 
             when(orderGateway.createOrder(any())).thenThrow(HttpClientErrorException.class);
@@ -97,7 +98,7 @@ class OrderControllerTest {
             Order order = new Order();
             order.setOrderDate(LocalDateTime.now());
             List<Item> items = new ArrayList<>();
-            items.add(0,new Item(1, 1));
+            items.add(0,new Item(UUID.randomUUID(), 1));
             order.setItens(items);
             when(orderGateway.findOrder(orderId)).thenReturn(order);
 

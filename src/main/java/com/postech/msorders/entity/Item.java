@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,11 +17,11 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long idProduct;
+    private UUID idProduct;
 
     private BigDecimal quantity;
 
-    public Item(long i, long j) {
+    public Item(UUID i, long j) {
         this.id = 1L;
         this.idProduct = i;
         this.quantity = BigDecimal.valueOf(j);

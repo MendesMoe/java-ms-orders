@@ -40,8 +40,9 @@ public class OrderUseCaseTest {
     void testFindCustomer_CustomerNotFound_ReturnsFalse() {
         // Arrange
         Order order = new Order();
+        OrderUseCase orderUseCase = new OrderUseCase();
 
         // Act & Assert
-        assertThrows(HttpClientErrorException.class, () -> OrderUseCase.validateInsertOrder(order));
+        assertThrows(HttpClientErrorException.class, () -> orderUseCase.validateInsertOrder(order));
     }
 }
