@@ -4,6 +4,8 @@ import com.postech.msorders.dto.OrderDTO;
 import com.postech.msorders.entity.Item;
 import com.postech.msorders.entity.Order;
 import com.postech.msorders.gateway.OrderGateway;
+import com.postech.msorders.usecase.OrderUseCase;
+import com.postech.msorders.utils.OutOfStockException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,10 +19,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class OrderControllerTest {
@@ -75,7 +79,7 @@ class OrderControllerTest {
             // Arrange
             String idCustomer = "c0390cca-aba3-4c91-ac44-29ec5615f381";
             List<Item> items = new ArrayList<>();
-            items.add(0,new Item(1, 1));
+            items.add(0,new Item(UUID.randomUUID(), 1));
             OrderDTO validOrderDTO = new OrderDTO(idCustomer, items);
 
             when(orderGateway.createOrder(any())).thenThrow(HttpClientErrorException.class);
@@ -85,6 +89,19 @@ class OrderControllerTest {
 
             // Assert
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        }
+
+        @Test
+        void deveGerarExcecaoQuandoEstoqueInsuficiente() throws Exception {
+            // TODO
+            // Arrange
+
+            // Act
+
+
+            // Assert
+//            assertEquals(HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
+//            assertEquals("Não há estoque suficiente", response.getBody());
         }
     }
 
@@ -97,7 +114,7 @@ class OrderControllerTest {
             Order order = new Order();
             order.setOrderDate(LocalDateTime.now());
             List<Item> items = new ArrayList<>();
-            items.add(0,new Item(1, 1));
+            items.add(0,new Item(UUID.randomUUID(), 1));
             order.setItens(items);
             when(orderGateway.findOrder(orderId)).thenReturn(order);
 
