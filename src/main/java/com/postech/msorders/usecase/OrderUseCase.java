@@ -5,9 +5,7 @@ import com.postech.msorders.entity.Order;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -20,12 +18,12 @@ import java.util.UUID;
 @Slf4j
 @Component
 @NoArgsConstructor
-//@Service
+@Service
 public class OrderUseCase {
     static RestTemplate restTemplate = new RestTemplate();
 
-    private String msProductsUrl;
-    private String msCustomersUrl;
+    private static String msProductsUrl;
+    private static String msCustomersUrl;
 
     @Value("${api.msproducts.url}")
     public void setMsProductsUrl(String msProductsUrl) {
@@ -36,12 +34,11 @@ public class OrderUseCase {
     public void setMsCustomersUrl(String msCustomersUrl) {
         this.msCustomersUrl = msCustomersUrl;
     }
-
-    public void validateInsertOrder(Order orderNew)  {
+    public static void validateInsertOrder(Order orderNew)  {
         findCustomer(String.valueOf(orderNew.getIdCustomer()));
     }
 
-    boolean findCustomer(String idCustomer) {
+    static boolean findCustomer(String idCustomer) {
         String url = msCustomersUrl + idCustomer;
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
@@ -50,11 +47,11 @@ public class OrderUseCase {
         return false;
     }
 
-    public void validateProductAvailability(Order orderNew) {
+    public static void validateProductAvailability(Order orderNew) {
         findProduct(orderNew.getItens());
     }
 
-    boolean findProduct(List<Item> itens) {
+    static boolean findProduct(List<Item> itens) {
         for(Item item : itens) {
             UUID idProduct = item.getIdProduct();
             BigDecimal quantity = item.getQuantity();
