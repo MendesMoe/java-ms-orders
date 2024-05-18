@@ -4,6 +4,7 @@ import com.postech.msorders.dto.OrderDTO;
 import com.postech.msorders.entity.Order;
 import com.postech.msorders.gateway.OrderGateway;
 import com.postech.msorders.usecase.OrderUseCase;
+import com.postech.msorders.utils.OutOfStockException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,14 +30,16 @@ public class OrderController {
     @PostMapping("")
     @Operation(summary = "Request for create a order", responses = {
             @ApiResponse(description = "The new order was created", responseCode = "201", content = @Content(schema = @Schema(implementation = Order.class))),
-            @ApiResponse(description = "Order Invalid", responseCode = "400", content = @Content(schema = @Schema(type = "string", example = "??????????")))
+            @ApiResponse(description = "Order Invalid", responseCode = "400", content = @Content(schema = @Schema(type = "string", example = "Campos inválidos ou faltando: itens, idCustomer"))),
+            @ApiResponse(description = "Customer invalid", responseCode = "404", content = @Content(schema = @Schema(type = "string", example = "Cliente não encontrado."))),
+            @ApiResponse(description = "Out Of Stock", responseCode = "412", content = @Content(schema = @Schema(type = "string", example = "Não há estoque suficiente")))
     })
     public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDTO orderDTO) {
         log.info("PostMapping - createOrder for customer [{}]", orderDTO.getIdCustomer());
         try {
             Order orderNew = new Order(orderDTO);
-
             OrderUseCase orderUseCase = new OrderUseCase();
+
             orderUseCase.validateInsertOrder(orderNew);
             orderUseCase.validateProductAvailability(orderNew);
 
@@ -44,6 +47,8 @@ public class OrderController {
             return new ResponseEntity<>(orderCreated, HttpStatus.CREATED);
         } catch (HttpClientErrorException enf) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(enf.getMessage());
+        } catch (OutOfStockException ie ){
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(ie.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -72,7 +77,4 @@ public class OrderController {
         }
         return new ResponseEntity<>("Pedido não encontrado.", HttpStatus.NOT_FOUND);
     }
-
-
-
 }

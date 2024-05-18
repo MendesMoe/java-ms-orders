@@ -2,6 +2,7 @@ package com.postech.msorders.usecase;
 
 import com.postech.msorders.entity.Item;
 import com.postech.msorders.entity.Order;
+import com.postech.msorders.utils.OutOfStockException;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -24,6 +26,7 @@ public class OrderUseCase {
 
     private static String msProductsUrl;
     private static String msCustomersUrl;
+    private static String msProductsUpdateStockIncreaseUrl;
 
     @Value("${api.msproducts.url}")
     public void setMsProductsUrl(String msProductsUrl) {
@@ -34,24 +37,33 @@ public class OrderUseCase {
     public void setMsCustomersUrl(String msCustomersUrl) {
         this.msCustomersUrl = msCustomersUrl;
     }
-    public static void validateInsertOrder(Order orderNew)  {
+
+    @Value("${api.msproducts-updateStockIncrease.url}")
+    public void setMsProductsUpdateStockIncreaseUrl(String msProductsUpdateStockIncreaseUrl) {
+        this.msProductsUpdateStockIncreaseUrl = msProductsUpdateStockIncreaseUrl;
+
+    }
+
+    public void validateInsertOrder(Order orderNew)  {
         findCustomer(String.valueOf(orderNew.getIdCustomer()));
     }
 
-    static boolean findCustomer(String idCustomer) {
+    boolean findCustomer(String idCustomer) {
         String url = msCustomersUrl + idCustomer;
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        if(response.getStatusCode().is2xxSuccessful())
-            return true;
-        return false;
+        return response.getStatusCode().is2xxSuccessful();
     }
 
-    public static void validateProductAvailability(Order orderNew) {
-        findProduct(orderNew.getItens());
+    public void validateProductAvailability(Order orderNew) {
+        if ( !findProduct(orderNew.getItens()) )
+            throw new OutOfStockException("Não há estoque suficiente");
+        else {
+            updateProduct(orderNew.getItens());
+        }
     }
 
-    static boolean findProduct(List<Item> itens) {
+    boolean findProduct(List<Item> itens) {
         for(Item item : itens) {
             UUID idProduct = item.getIdProduct();
             BigDecimal quantity = item.getQuantity();
@@ -60,10 +72,21 @@ public class OrderUseCase {
 
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-            if (response.getBody().matches("false"))
+            if (Objects.requireNonNull(response.getBody()).matches("false"))
                 return false;
         }
         return true;
+    }
+
+    void updateProduct(List<Item> itens) {
+        for(Item item : itens) {
+            UUID idProduct = item.getIdProduct();
+            BigDecimal quantity = item.getQuantity();
+
+            String url = msProductsUpdateStockIncreaseUrl + idProduct + "/-" + quantity;
+
+            restTemplate.put(url, String.class);
+        }
     }
 
 }

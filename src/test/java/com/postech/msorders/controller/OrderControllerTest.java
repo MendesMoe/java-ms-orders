@@ -4,6 +4,8 @@ import com.postech.msorders.dto.OrderDTO;
 import com.postech.msorders.entity.Item;
 import com.postech.msorders.entity.Order;
 import com.postech.msorders.gateway.OrderGateway;
+import com.postech.msorders.usecase.OrderUseCase;
+import com.postech.msorders.utils.OutOfStockException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class OrderControllerTest {
@@ -86,6 +89,19 @@ class OrderControllerTest {
 
             // Assert
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        }
+
+        @Test
+        void deveGerarExcecaoQuandoEstoqueInsuficiente() throws Exception {
+            // TODO
+            // Arrange
+
+            // Act
+
+
+            // Assert
+//            assertEquals(HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
+//            assertEquals("Não há estoque suficiente", response.getBody());
         }
     }
 
