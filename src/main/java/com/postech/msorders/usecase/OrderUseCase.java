@@ -44,7 +44,7 @@ public class OrderUseCase {
         this.msProductsUpdateStockIncreaseUrl = msProductsUpdateStockIncreaseUrl;
     }
 
-    @Value("${api.msproducts-updateStockIncrease.url}")
+    @Value("${api.msproducts-updateStockDecrease.url}")
     public void setMsProductsUpdateStockDecreaseUrl(String msProductsUpdateStockDecreaseUrl) {
         this.msProductsUpdateStockDecreaseUrl = msProductsUpdateStockDecreaseUrl;
     }
@@ -93,5 +93,4 @@ public class OrderUseCase {
             restTemplate.put(url, String.class);
         }
     }
-
 }
