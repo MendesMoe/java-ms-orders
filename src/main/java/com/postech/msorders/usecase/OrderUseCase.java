@@ -26,7 +26,6 @@ public class OrderUseCase {
 
     private static String msProductsUrl;
     private static String msCustomersUrl;
-    private static String msProductsUpdateStockIncreaseUrl;
     private static String msProductsUpdateStockDecreaseUrl;
 
     @Value("${api.msproducts.url}")
@@ -37,11 +36,6 @@ public class OrderUseCase {
     @Value("${api.mscustomers.url}")
     public void setMsCustomersUrl(String msCustomersUrl) {
         this.msCustomersUrl = msCustomersUrl;
-    }
-
-    @Value("${api.msproducts-updateStockIncrease.url}")
-    public void setMsProductsUpdateStockIncreaseUrl(String msProductsUpdateStockIncreaseUrl) {
-        this.msProductsUpdateStockIncreaseUrl = msProductsUpdateStockIncreaseUrl;
     }
 
     @Value("${api.msproducts-updateStockDecrease.url}")

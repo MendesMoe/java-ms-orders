@@ -25,8 +25,8 @@ public class OrderUseCaseTest {
 
     @Test
     void testFindCustomer_CustomerExists_ReturnsTrue() {
-        String idCustomer = "91d6abe8-10d8-4f50-b0c9-94c4e13f8ed0";
-        String url = "http://localhost:8080/customers/" + idCustomer;
+        String idCustomer = "af80d930-495c-483d-a78b-536bf414762c";
+        String url = "http://localhost:8081/customers/" + idCustomer;
         ResponseEntity<String> response = new ResponseEntity<>("", HttpStatus.OK);
 
         when(restTemplate.getForEntity(url, String.class)).thenReturn(response);

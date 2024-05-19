@@ -45,7 +45,7 @@ class OrderControllerTest {
         @Test
         void devePermitirRegistrarPedido() throws Exception {
             // Arrange
-            String idCustomer = "c0390cca-aba3-4c91-ac44-29ec5615f381";
+            String idCustomer = "af80d930-495c-483d-a78b-536bf414762c";
             List<Item> items = new ArrayList<>();
             OrderDTO orderDTO = new OrderDTO(idCustomer, items);
             orderDTO.setIdCustomer(idCustomer);
