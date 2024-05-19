@@ -1,4 +1,4 @@
-# ms-orders
+# java-ms-orders
 
 Este projeto é uma API desenvolvida com Java e Spring Boot, designada para Gerenciamento de Pedidos com integração com a API ms-customers 
 
@@ -16,8 +16,22 @@ Este projeto foi desenvolvido com as seguintes tecnologias e bibliotecas:
 - **Springdoc OpenAPI**: Para documentação da API REST com Swagger.
 - **Lombok**: Para reduzir o código boilerplate, como getters e setters.
 - **MySQL**: banco de dados relacional.
-- **Render**: Deploy da aplicação Java e do banco de dados Postgres em plataforma grátis
 - **Docker**: utilização de container para criação de ambiente de execução local
+
+
+### Execução das aplicações
+Este repositório contém uma aplicação e um banco de dados.
+Porém, sua execução pode depender de outras aplicações, então sugerimos os passos abaixo para garantir que os containers estejam rodando antes de iniciar os testes.<br>
+Isso inclui a criação de uma rede no docker para que os containers possam se comunicar.<br>
+O comando abaixo para a criação de rede é necessário somente para o primeiro container, os demais vão assumir essa mesma rede.
+````shell
+docker network create my_network -d bridge
+````
+Após a criação da rede, precisamos executar o comando abaixo para fazer o build da aplicação e também do banco de dados. Este comando é responsável por executar o arquivo compose, e este por sua vez fará o build da aplicação usando o Dockerfile, e também irá baixar, configurar e executar o banco de dados.
+````shell
+docker-compose up --build
+````
+Assim que o processo for concluído, tanto a aplicação quanto o banco de dados estarão rodando em containers compartilhando a mesma rede.<br>
 
 ## Documentação
 A Collection utilizada no Postman está disponível na URL:
@@ -26,7 +40,9 @@ https://github.com/MendesMoe/java-ms-orders/blob/main/src/main/resources/PosTech
 A documentação detalhada da API está acessível na URL:
 http://localhost:8082/swagger-ui/index.html
 
+
 ## Portas configuradas
 
-App: http://localhost:8082
+App: http://localhost:8082 
+
 MySQL: jdbc:mysql://localhost:3307/orderdb

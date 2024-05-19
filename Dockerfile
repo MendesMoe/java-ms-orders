@@ -19,14 +19,14 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar /app/msorders.jar
 
-CMD ["java", "-jar", "/app/msorders.jar"]
+#CMD ["java", "-jar", "/app/msorders.jar"]
 
 
-# Instalando wait-for-it.sh para poder esperar o rabbit e mongo
+# Instalando wait-for-it.sh para poder esperar o banco de dados
 RUN apt-get update -y \
     && apt-get install -y wget netcat \
     && wget -O /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
     && chmod +x /usr/local/bin/wait-for-it.sh
 
-# Aguardando até que o RabbitMQ e o MongoDB iniciem antes de iniciar a aplicação
+# Aguardando até que o banco inicie antes de iniciar a aplicação
 CMD ["/bin/bash", "-c", "wait-for-it.sh -t 0 mysql-orders:3306 -- java -jar msorders.jar"]
