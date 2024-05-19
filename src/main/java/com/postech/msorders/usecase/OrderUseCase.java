@@ -27,6 +27,7 @@ public class OrderUseCase {
     private static String msProductsUrl;
     private static String msCustomersUrl;
     private static String msProductsUpdateStockIncreaseUrl;
+    private static String msProductsUpdateStockDecreaseUrl;
 
     @Value("${api.msproducts.url}")
     public void setMsProductsUrl(String msProductsUrl) {
@@ -41,7 +42,11 @@ public class OrderUseCase {
     @Value("${api.msproducts-updateStockIncrease.url}")
     public void setMsProductsUpdateStockIncreaseUrl(String msProductsUpdateStockIncreaseUrl) {
         this.msProductsUpdateStockIncreaseUrl = msProductsUpdateStockIncreaseUrl;
+    }
 
+    @Value("${api.msproducts-updateStockIncrease.url}")
+    public void setMsProductsUpdateStockDecreaseUrl(String msProductsUpdateStockDecreaseUrl) {
+        this.msProductsUpdateStockDecreaseUrl = msProductsUpdateStockDecreaseUrl;
     }
 
     public void validateInsertOrder(Order orderNew)  {
@@ -83,7 +88,7 @@ public class OrderUseCase {
             UUID idProduct = item.getIdProduct();
             BigDecimal quantity = item.getQuantity();
 
-            String url = msProductsUpdateStockIncreaseUrl + idProduct + "/-" + quantity;
+            String url = msProductsUpdateStockDecreaseUrl + idProduct + "/" + quantity;
 
             restTemplate.put(url, String.class);
         }
