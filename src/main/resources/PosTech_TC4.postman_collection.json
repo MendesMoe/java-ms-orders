@@ -362,7 +362,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/updateStockIncrease/b1d1a16f-69bd-4e2a-b6da-0ca417b756f4/-5",
+							"raw": "http://localhost:8080/api/products/updateStockIncrease/b1d1a16f-69bd-4e2a-b6da-0ca417b756f4/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -380,12 +380,12 @@
 					"response": []
 				},
 				{
-					"name": "3.1 Update the stock Product by ID",
+					"name": "3.1 Decrease the stock Product by ID",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/updateStockQuantity/b1d1a16f-69bd-4e2a-b6da-0ca417b756f4/150",
+							"raw": "http://localhost:8080/api/products/updateStockDecrease/b1d1a16f-69bd-4e2a-b6da-0ca417b756f4/15",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -394,9 +394,9 @@
 							"path": [
 								"api",
 								"products",
-								"updateStockQuantity",
+								"updateStockDecrease",
 								"b1d1a16f-69bd-4e2a-b6da-0ca417b756f4",
-								"150"
+								"15"
 							]
 						}
 					},
