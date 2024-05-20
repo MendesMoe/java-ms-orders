@@ -9,13 +9,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -29,12 +29,12 @@ public class OrderController {
 
     @PostMapping("")
     @Operation(summary = "Request for create a order", responses = {
-            @ApiResponse(description = "The new order was created", responseCode = "201", content = @Content(schema = @Schema(implementation = Order.class))),
-            @ApiResponse(description = "Order Invalid", responseCode = "400", content = @Content(schema = @Schema(type = "string", example = "Campos inválidos ou faltando: itens, idCustomer"))),
-            @ApiResponse(description = "Customer invalid", responseCode = "404", content = @Content(schema = @Schema(type = "string", example = "Cliente não encontrado."))),
-            @ApiResponse(description = "Out Of Stock", responseCode = "412", content = @Content(schema = @Schema(type = "string", example = "Não há estoque suficiente")))
+            @ApiResponse(description = "Order created", responseCode = "201"),
+            @ApiResponse(description = "Bad request", responseCode = "400"),
+            @ApiResponse(description = "Customer not found", responseCode = "404"),
+            @ApiResponse(description = "Product out of stock", responseCode = "412"),
     })
-    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<?> createOrder(@Validated @RequestBody OrderDTO orderDTO) {
         log.info("PostMapping - createOrder for customer [{}]", orderDTO.getIdCustomer());
         try {
             Order orderNew = new Order(orderDTO);
